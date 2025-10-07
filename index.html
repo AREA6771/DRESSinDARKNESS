@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2025 AREA 6771</title>
+  <meta name="description" content="2025 AREA 6771" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#0a0a0a;--fg:#f5f5f5;--muted:#bdbdbd;--ring:#1c1c1c;--card:#121212;--accent:#cdb414;--radius:16px;
+      /* Start from a base, but let JS grow this on desktop for readability */
+      --hero-h: clamp(150px, 20vw, 260px);
+      --copy-scale: 1;
+      --lh-scale: 1;
+      --copy-pad-y: 20px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1040px;margin:0 auto;padding:20px}
+
+    /* Header */
+    header{padding:16px 0}
+    .hero{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+    .hero-media{min-width:0}
+    .hero-copy{min-width:0;display:flex}
+    .hero-copy-inner{
+      border:1px solid var(--ring);border-radius:var(--radius);
+      padding:var(--copy-pad-y) 20px;display:flex;flex-direction:column;justify-content:center;width:100%;
+      height:var(--hero-h);
+      overflow:hidden;
+      background:transparent;
+    }
+    .hero-copy .copy{
+      display:flex;flex-direction:column;gap:.4em;max-height:100%;
+      overflow-wrap:anywhere;
+    }
+    .hero-copy p{
+      margin:0;line-height: calc(1.22 * var(--lh-scale)); letter-spacing:.01em;
+      font-size: calc(clamp(18px, 2.2vw, 24px) * var(--copy-scale));
+      font-family:'Antonio', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif;
+    }
+    .hero-copy p.emph{
+      font-weight:600;letter-spacing:.03em;
+      font-size: calc(clamp(20px, 2.6vw, 28px) * var(--copy-scale));
+    }
+    .hero-copy p.shout{
+      font-weight:800;letter-spacing:.06em;
+      font-size: calc(clamp(22px, 3vw, 32px) * var(--copy-scale));
+    }
+
+    .hero-banner{border:1px solid var(--ring);border-radius:var(--radius);overflow:hidden;background:#0d0d0d;height:var(--hero-h)}
+    .hero-banner .imgwrap{width:100%;height:100%;background:#000;display:block;position:relative}
+    .hero-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;background:#000}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .hero-copy-inner{height:auto;overflow:visible}
+      .hero-banner{height:auto}
+      .hero-banner .imgwrap{height:clamp(110px,26vw,200px)}
+    }
+
+    /* Products */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:var(--card);border:1px solid var(--ring);border-radius:var(--radius);overflow:hidden;cursor:default}
+    .card .body{padding:12px}
+    .title{font-weight:800;margin:8px 0 2px}
+    .price{color:var(--fg);font-weight:700;margin:2px 0 10px}
+
+    /* Product mini-slideshow */
+    .mini{position:relative;width:100%;aspect-ratio:1/1;background:#0c0c0c;overflow:hidden;cursor:pointer}
+    .mini .track{display:flex;height:100%;transition:transform .35s ease}
+    .mini .slide{min-width:100%;height:100%}
+    .mini img{width:100%;height:100%;object-fit:contain;display:block}
+    .dots{position:absolute;left:0;right:0;bottom:8px;display:flex;gap:6px;justify-content:center}
+    .dot{width:8px;height:8px;border:1px solid #ffffff55;border-radius:999px;background:transparent}
+    .dot[aria-current="true"]{background:#ffffffaa}
+
+    footer{padding:28px 0;color:var(--muted);font-size:14px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}}
+
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:var(--card);border:1px solid var(--ring);border-radius:var(--radius);padding:16px;margin-top:12px}
+    .form .full{grid-column:1/-1}
+    .form label{font-size:14px;color:var(--muted)}
+    .form input,.form select,.form textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--ring);background:#0e0e0e;color:var(--fg);outline:none}
+    .form textarea{min-height:96px;resize:vertical}
+    .form button{border:1px solid var(--accent);border-radius:12px;padding:10px 12px;background:#111;color:var(--fg);cursor:pointer}
+    @media (max-width:600px){.form{grid-template-columns:1fr}}
+  
+/* === Film-grain overlay for header image & text === */
+.hero-banner .imgwrap::before,
+.hero-copy-inner::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background: repeating-conic-gradient(#ffffff22 0 2deg, #0000 2deg 4deg);
+  mix-blend-mode: soft-light; opacity:.045;
+  animation: grainShift .6s steps(2,end) infinite;
+}
+.hero-copy-inner{ position: relative; } /* ensure pseudo works */
+.hero-banner .imgwrap{ position: relative; } /* ensure pseudo works */
+
+@keyframes grainShift{ to{ transform: translate3d(1px,-1px,0) } }
+
+@media (prefers-reduced-motion: reduce){
+  .hero-banner .imgwrap::before,
+  .hero-copy-inner::before{ animation: none }
+}
+
+
+/* === Product effects: Lens zoom (4), Hover-advance (3), Idle drift (5) === */
+.mini{ --lens:120px; }
+/* lens removed */
+/* /* lens removed */
+/* /* lens hover removed */ */
+
+/* Idle drift on all product images (subtle) */
+.mini img{ will-change: transform }
+.idle .mini img{ animation: drift 6s ease-in-out infinite }
+@keyframes drift{ 50%{ transform: scale(1.02) translateY(-1%) } }
+
+@media (prefers-reduced-motion: reduce){
+  /* lens removed */
+/* /* lens removed */
+  .idle .mini img{ animation: none !important }
+}
+
+
+/* Header idle drift */
+.hero-banner img{ will-change: transform }
+.idle .hero-banner img{ animation: drift 6.5s ease-in-out infinite }
+
+@media (prefers-reduced-motion: reduce){
+  .idle .hero-banner img{ animation: none !important }
+}
+
+
+
+
+
+
+/* Header continuous drift — doubled sway, same speed */
+16%  { transform: scale(1.090) translateX(3.2%)   translateY(-1.6%)  rotateZ(-0.80deg) }
+  33%  { transform: scale(1.120) translateX(6.4%)   translateY(-4.8%)  rotateZ(-1.20deg) }
+  50%  { transform: scale(1.090) translateX(2.4%)   translateY(-1.2%)  rotateZ(-0.20deg) }
+  66%  { transform: scale(1.070) translateX(-2.4%)  translateY(1.2%)   rotateZ(0.60deg) }
+  83%  { transform: scale(1.090) translateX(2.0%)   translateY(-0.8%)  rotateZ(0.20deg) }
+  100% { transform: scale(1.060) translateX(0%)     translateY(0%)     rotateZ(-0.40deg) }
+}
+.hero-banner img{ will-change: transform; animation: driftContinuous 9s linear infinite }
+@media (prefers-reduced-motion: reduce){
+  .hero-banner img{ animation: none !important }
+}
+
+
+
+
+
+
+/* === Global Light-Leak Sweep Overlay (stronger) === */
+:root{
+  --leak-opacity: 0.14;     /* stronger intensity */
+  --leak-blur: 14px;        /* softer glow */
+  --leak-speed: 11s;        /* main sweep duration */
+  --leak-speed-2: 17s;      /* secondary sweep */
+  --leak-angle: 22deg;      /* main gradient angle */
+  --leak-angle-2: -15deg;   /* secondary angle */
+}
+
+.leak-overlay{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999; /* below sound button (1000) */
+  opacity: var(--leak-opacity);
+  mix-blend-mode: screen; /* brighter on dark theme */
+}
+
+.leak-overlay::before,
+.leak-overlay::after{
+  content:"";
+  position:absolute; inset:-25%;
+  filter: blur(var(--leak-blur));
+  transform: translateX(-120%);
+}
+
+/* Main warm sweep */
+.leak-overlay::before{
+  background:
+    linear-gradient(var(--leak-angle),
+      rgba(255,200,100,0.00) 36%,
+      rgba(255,235,180,0.9)  50%,
+      rgba(255,200,100,0.00) 64%);
+  animation: leak-sweep var(--leak-speed) ease-in-out infinite;
+}
+
+/* Secondary cool sweep (counter-direction, slower) */
+.leak-overlay::after{
+  background:
+    linear-gradient(var(--leak-angle-2),
+      rgba(200,220,255,0.00) 40%,
+      rgba(255,255,255,0.85) 50%,
+      rgba(200,220,255,0.00) 60%);
+  animation: leak-sweep-2 var(--leak-speed-2) ease-in-out infinite;
+  opacity: .8;
+}
+
+@keyframes leak-sweep{
+  0%, 68% { transform: translateX(-120%); }
+  100%    { transform: translateX(120%);  }
+}
+@keyframes leak-sweep-2{
+  0%, 72% { transform: translateX(120%); }
+  100%    { transform: translateX(-120%);  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .leak-overlay{ display:none !important; }
+}
+
+/* === Header breathing (always on, gentle) === */
+@keyframes breatheSoft{ 50%{ transform: scale(1.03) translateY(-1%) } }
+.hero-banner img{ will-change: transform; animation: breatheSoft 8s ease-in-out infinite }
+@media (prefers-reduced-motion: reduce){
+  .hero-banner img{ animation: none !important }
+}
+</style>
+</head>
+<body>
+  <div class="leak-overlay" aria-hidden="true"></div>
+  <header class="container">
+    <div class="hero">
+      <div class="hero-media">
+        <div class="hero-banner" aria-label="Header image">
+          <div class="imgwrap">
+            <img id="hero-img" alt="AREA 6771 header" decoding="async" loading="eager">
+          </div>
+        </div>
+      </div>
+      <div class="hero-copy">
+        <div class="hero-copy-inner">
+          <div id="copy-fit" class="copy" aria-label="Tagline">
+
+<p class="emph">Once a quiet place – now a realm of shadows.</p>
+<p>Every design tells a story, woven from dark comics, horror, and fantasy. Step into the world where reality bends, and darkness reigns.</p>
+<p class="shout">DRESS IN DARKNESS</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section aria-label="Products" class="products">
+      <div class="grid">
+        <!-- CRY (1st) -->
+        <article class="card" data-product="CRY">
+          <div class="mini" data-index="0">
+            <div class="track">
+              <div class="slide"><img src="images/Cry_1.jpg" alt="CRY — view 1" loading="lazy" decoding="async"></div>
+              <div class="slide"><img src="images/Cry_2.jpg" alt="CRY — view 2" loading="lazy" decoding="async"></div>
+              <div class="slide"><img src="images/Cry_3.jpg" alt="CRY — view 3" loading="lazy" decoding="async"></div>
+            </div>
+            <div class="dots" role="tablist" aria-label="CRY images">
+              <button class="dot" type="button" aria-label="Image 1" aria-current="true"></button>
+              <button class="dot" type="button" aria-label="Image 2"></button>
+              <button class="dot" type="button" aria-label="Image 3"></button>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title">CRY</div>
+            <div class="price">Pre-order</div>
+          </div>
+        </article>
+        <!-- BASIC (2nd) -->
+        <article class="card" data-product="BASIC">
+          <div class="mini" data-index="0">
+            <div class="track">
+              <div class="slide"><img src="images/basic_1.jpg" alt="BASIC — view 1" loading="lazy" decoding="async"></div>
+              <div class="slide"><img src="images/basic_2.jpg" alt="BASIC — view 2" loading="lazy" decoding="async"></div>
+              <div class="slide"><img src="images/basic_3.jpg" alt="BASIC — view 3" loading="lazy" decoding="async"></div>
+            </div>
+            <div class="dots" role="tablist" aria-label="BASIC images">
+              <button class="dot" type="button" aria-label="Image 1" aria-current="true"></button>
+              <button class="dot" type="button" aria-label="Image 2"></button>
+              <button class="dot" type="button" aria-label="Image 3"></button>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title">BASIC</div>
+            <div class="price">Pre-order</div>
+          </div>
+        </article>
+        <!-- WATCHER (3rd) -->
+        <article class="card" data-product="WATCHER">
+          <div class="mini" data-index="0">
+            <div class="track">
+              <div class="slide"><img src="images/Watcher_1.jpg" alt="WATCHER — view 1" loading="lazy" decoding="async"></div>
+              <div class="slide"><img src="images/Watcher_2.jpg" alt="WATCHER — view 2" loading="lazy" decoding="async"></div>
+              <div class="slide"><img src="images/Watcher_3.jpg" alt="WATCHER — view 3" loading="lazy" decoding="async"></div>
+            </div>
+            <div class="dots" role="tablist" aria-label="WATCHER images">
+              <button class="dot" type="button" aria-label="Image 1" aria-current="true"></button>
+              <button class="dot" type="button" aria-label="Image 2"></button>
+              <button class="dot" type="button" aria-label="Image 3"></button>
+            </div>
+          </div>
+          <div class="body">
+            <div class="title">WATCHER</div>
+            <div class="price">Pre-order</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-label="Order" class="order">
+      <h2>Order</h2>
+      <form id="order-form" class="form" novalidate>
+        <div class="full">
+          <label for="product">Product</label>
+          <select id="product" name="product" required>
+            <option value="">—</option>
+            <option>BASIC</option>
+            <option>CRY</option>
+            <option>WATCHER</option>
+          </select>
+        </div>
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" autocomplete="name" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div>
+          <label for="size">Size</label>
+          <select id="size" name="size" required>
+            <option value="">—</option>
+            <option>S</option><option>M</option><option>L</option><option>XL</option>
+          </select>
+        </div>
+        <div>
+          <label for="qty">Quantity</label>
+          <input id="qty" name="qty" type="number" min="1" value="1" required />
+        </div>
+        <div class="full">
+          <label for="notes">Notes</label>
+          <textarea id="notes" name="notes" placeholder="Anything we should know?"></textarea>
+        </div>
+        <div class="full">
+          <button type="submit">Send order</button>
+        </div>
+      </form>
+      <p id="order-result" role="status" style="margin-top:.5rem;color:var(--muted)"></p>
+    </section>
+  </main>
+
+  <footer class="container">
+    2025 AREA 6771
+  </footer>
+
+  <script>
+    function whenReady(fn){ if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', fn); } else { fn(); } }
+
+    // Header image choose (no rotation later; pick-on-refresh) + contain sizing
+    function initHeader(){
+      const sources = ['images/header1.jpg','images/header2.jpg','images/header3.jpg'];
+      const img = document.getElementById('hero-img');
+      if(!img) return;
+      let i = Math.floor(Math.random()*sources.length);
+      function trySet(){
+        const src = sources[i];
+        img.onerror = function(){ i = (i+1) % sources.length; trySet(); };
+        img.onload = function(){ img.style.display='block'; };
+        img.src = src;
+      }
+      trySet();
+    }
+
+    // Adaptive fit prioritizing readability:
+    // - Try with scale=1; if overflow, GROW --hero-h up to MAX_H to fit.
+    // - Only if at max height and still overflow, nudge scale down to 0.9 and line-height to 0.95.
+    function fitCopy(){
+      const root = document.documentElement;
+      const box = document.querySelector('.hero-copy-inner');
+      const copy = document.getElementById('copy-fit');
+      if(!box || !copy) return;
+
+      // Reset scales
+      root.style.setProperty('--copy-scale', '1');
+      root.style.setProperty('--lh-scale', '1');
+      root.style.setProperty('--copy-pad-y', '20px');
+
+      const isStacked = window.matchMedia('(max-width: 900px)').matches;
+      if(isStacked) return;
+
+      // Read current computed base height
+      const baseH = parseFloat(getComputedStyle(root).getPropertyValue('--hero-h'));
+      // Set bounds for auto growth
+      const MIN_H = Math.max(150, baseH);
+      const MAX_H = Math.max(320, Math.min(480, Math.round(window.innerHeight * 0.45))); // cap ~45% viewport
+
+      function fits(){
+        return copy.scrollHeight <= box.clientHeight + 0.5;
+      }
+
+      // First attempt at base height
+      if(!fits()){
+        // Grow height up to MAX_H
+        let lo = MIN_H, hi = MAX_H;
+        // binary search to smallest height that fits
+        for(let i=0;i<14;i++){
+          const mid = Math.round((lo+hi)/2);
+          root.style.setProperty('--hero-h', mid + 'px');
+          if(fits()){ hi = mid; } else { lo = mid + 1; }
+        }
+        root.style.setProperty('--hero-h', hi + 'px');
+      }
+
+      // If even at MAX_H it doesn't fit, gently shrink for safety
+      if(!fits()){
+        root.style.setProperty('--copy-scale', '0.90');
+        root.style.setProperty('--lh-scale', '0.95');
+      }
+    }
+
+    // Mini slideshows
+    function miniTo(mini, idx){
+      const track = mini.querySelector('.track');
+      if(!track) return;
+      const slides = track.children.length;
+      if(!slides) return;
+      const i = ((idx % slides) + slides) % slides;
+      track.style.transform = 'translateX(-' + (i*100) + '%)';
+      mini.dataset.index = String(i);
+      mini.querySelectorAll('.dot').forEach((d,di)=> d.setAttribute('aria-current', di===i));
+    }
+    function initMiniSlideshows(){
+      document.querySelectorAll('.mini').forEach(mini=>{
+        const dots = mini.querySelectorAll('.dot');
+        dots.forEach((d,di)=> d.addEventListener('click', (ev)=>{ ev.stopPropagation(); miniTo(mini, di); }));
+        mini.addEventListener('click', ()=>{
+          const len = mini.querySelector('.track')?.children.length || 0;
+          if(!len) return;
+          const cur = Number(mini.dataset.index||0);
+          miniTo(mini, (cur+1)%len);
+        });
+        let sx=null;
+        mini.addEventListener('touchstart',e=>{ sx=e.touches[0].clientX; },{passive:true});
+        mini.addEventListener('touchend',e=>{
+          if(sx==null) return;
+          const dx = e.changedTouches[0].clientX - sx;
+          sx=null;
+          if(Math.abs(dx) < 24) return;
+          const len = mini.querySelector('.track')?.children.length || 0;
+          const cur = Number(mini.dataset.index||0);
+          miniTo(mini, (cur + (dx<0?1:-1) + len) % len);
+        },{passive:true});
+        miniTo(mini, 0);
+      });
+    }
+
+    // Order form
+    const emailIsValid = (e)=>/.+@.+\..+/.test(String(e||''));
+    const isComplete = (fd, keys)=> keys.every(k=> String(fd.get(k)||'').trim());
+    const buildMailtoBody = (fd)=>[
+      'Product: ' + fd.get('product'),
+      'Name: ' + fd.get('name'),
+      'Email: ' + fd.get('email'),
+      'Size: ' + fd.get('size'),
+      'Quantity: ' + fd.get('qty'),
+      'Notes: ' + (fd.get('notes')||'')
+    ].join('\n');
+    const buildMailtoLink = (fd, to)=>{
+      const subject = encodeURIComponent('Order: ' + fd.get('product'));
+      const body = encodeURIComponent(buildMailtoBody(fd));
+      return 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+    };
+    function initOrderForm(){
+      const form = document.getElementById('order-form');
+      const result = document.getElementById('order-result');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const fd = new FormData(form);
+        const req = ['product','name','email','size','qty'];
+        if(!isComplete(fd, req) || !emailIsValid(fd.get('email'))){
+          result.textContent = 'Please fill all required fields with a valid email.';
+          return;
+        }
+        const mailto = buildMailtoLink(fd, 'villagedd6771@gmail.com');
+        window.location.href = mailto;
+        result.textContent = 'Opening your email app with the order details...';
+      });
+    }
+
+    function onReady(){
+      initHeader();
+      initMiniSlideshows();
+      initOrderForm();
+      fitCopy();
+      window.addEventListener('resize', fitCopy);
+    }
+    whenReady(onReady);
+  </script>
+
+  <!-- Háttérzene áttetsző ikonos gombbal, fade in/out és kattintáshanggal -->
+  <audio id="bg-music" src="hatter.mp3" loop preload="auto" muted></audio>
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio> <!-- rövid kattintáshang -->
+
+  <button id="sound-toggle" aria-label="Hang be/ki" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.3s, transform 0.2s;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  ">
+    <!-- Némított ikon (alapértelmezett) -->
+    <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="26" height="26">
+      <path d="M16.5 12a4.5 4.5 0 0 0-1.27-3.18l-1.42 1.42a2.5 2.5 0 0 1 0 3.52l1.42 1.42A4.5 4.5 0 0 0 16.5 12Zm-3.82-6.18L8.71 9H5v6h3.71l3.97 3.18c.33.27.82.03.82-.39V6.21c0-.42-.49-.66-.82-.39ZM19 3.41 17.59 4.83 20.76 8l-1.41 1.41-3.17-3.17L14.83 8l3.17 3.17-1.41 1.41L12 7.59l-1.41 1.41L15.17 13l-1.41 1.41L9.17 9.83 7.76 11.24l4.24 4.24-1.41 1.41L6.34 12.6 4.93 14l4.83 4.83V20h2v-1.17L19 21.59 20.41 20 19 18.59 21.59 16 20.18 14.59 17.59 17.18 16.18 15.77 18.77 13.18 17.36 11.77 19.95 9.18 18.54 7.77 21.13 5.18 19.72 3.77 19 3.41Z"/>
+    </svg>
+
+    <!-- Hangos ikon -->
+    <svg id="icon-sound" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="26" height="26" style="display:none;">
+      <path d="M3 10v4h4l5 5V5l-5 5H3zm13.5 2a4.5 4.5 0 0 0-1.27-3.18l-1.42 1.42a2.5 2.5 0 0 1 0 3.52l1.42 1.42A4.5 4.5 0 0 0 16.5 12Zm2.5 0c0 2.21-1.2 4.15-3 5.19l1.42 1.42A7.007 7.007 0 0 0 22 12a7.007 7.007 0 0 0-4.58-6.61L16 6.81A5.007 5.007 0 0 1 19 12Z"/>
+    </svg>
+  </button>
+
+  <script>
+    (function(){
+      const audio = document.getElementById('bg-music');
+      const clickSound = document.getElementById('click-sound');
+      const toggleBtn = document.getElementById('sound-toggle');
+      const iconMuted = document.getElementById('icon-muted');
+      const iconSound = document.getElementById('icon-sound');
+
+      if(!audio || !toggleBtn) return;
+
+      let fadeInterval = null;
+      function fadeOutAudio(duration = 1000) {
+        clearInterval(fadeInterval);
+        const step = 0.05;
+        fadeInterval = setInterval(() => {
+          if (audio.volume > step) {
+            audio.volume = Math.max(0, audio.volume - step);
+          } else {
+            audio.volume = 0;
+            clearInterval(fadeInterval);
+          }
+        }, duration * step);
+      }
+      function fadeInAudio(duration = 1000) {
+        clearInterval(fadeInterval);
+        const step = 0.05;
+        fadeInterval = setInterval(() => {
+          if (audio.volume < 1) {
+            audio.volume = Math.min(1, audio.volume + step);
+          } else {
+            clearInterval(fadeInterval);
+          }
+        }, duration * step);
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        try{ clickSound.currentTime = 0; clickSound.play(); }catch(e){}
+
+        if (audio.muted) {
+          audio.muted = false;
+          audio.volume = 0;
+          fadeInAudio();
+          audio.play().catch(() => console.log("Autoplay blokkolva — kattints újra."));
+          if(iconMuted) iconMuted.style.display = 'none';
+          if(iconSound) iconSound.style.display = 'block';
+          toggleBtn.style.background = "rgba(0,0,0,0.5)";
+        } else {
+          fadeOutAudio();
+          setTimeout(() => {
+            audio.muted = true;
+            if(iconMuted) iconMuted.style.display = 'block';
+            if(iconSound) iconSound.style.display = 'none';
+            toggleBtn.style.background = "rgba(0,0,0,0.35)";
+          }, 1000);
+        }
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && !audio.muted) {
+          fadeOutAudio(800);
+        } else if (!document.hidden && !audio.muted) {
+          fadeInAudio(800);
+        }
+      });
+
+      // One-time user gesture unlock
+      document.addEventListener('click', function initAudioOnce() {
+        audio.play().catch(()=>{});
+        document.removeEventListener('click', initAudioOnce);
+      });
+
+      toggleBtn.addEventListener('mouseenter', () => toggleBtn.style.transform = 'scale(1.1)');
+      toggleBtn.addEventListener('mouseleave', () => toggleBtn.style.transform = 'scale(1)');
+    })();
+  </script>
+
+
+<script>
+(function(){
+  // ==== Helpers ====
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  // (Lens Zoom removed)
+
+    mini.addEventListener('mousemove', move);
+    mini.addEventListener('mouseleave', leave);
+    // Optional light touch support
+    mini.addEventListener('touchstart', move, {passive:true});
+    mini.addEventListener('touchmove', move, {passive:true});
+    mini.addEventListener('touchend', leave, {passive:true});
+  }
+
+  // === Hover-advance Slideshow (3) ===
+  function startHoverAdvance(mini){
+    stopHoverAdvance(mini);
+    const run = ()=>{
+      const track = mini.querySelector('.track');
+      const slides = track ? track.children.length : 0;
+      if(!slides) return;
+      const cur = Number(mini.dataset.index || 0);
+      const next = (cur + 1) % slides;
+      // Reuse existing function if present
+      if(typeof window.miniTo === 'function'){ window.miniTo(mini, next); }
+      else {
+        track.style.transform = 'translateX(-' + (next*100) + '%)';
+        mini.dataset.index = String(next);
+        mini.querySelectorAll('.dot').forEach((d,di)=> d.setAttribute('aria-current', di===next));
+      }
+      mini.__hoverTimer = setTimeout(run, 1400);
+    };
+    mini.__hoverTimer = setTimeout(run, 600);
+  }
+  function stopHoverAdvance(mini){
+    if(mini.__hoverTimer){
+      clearTimeout(mini.__hoverTimer);
+      mini.__hoverTimer = null;
+    }
+  }
+  function initHoverAdvance(mini){
+    mini.addEventListener('mouseenter', ()=> startHoverAdvance(mini));
+    mini.addEventListener('mouseleave', ()=> stopHoverAdvance(mini));
+  }
+
+  // === Idle Drift (5) ===
+  let idleTimer=null;
+  function setIdle(v){ document.documentElement.classList.toggle('idle', v); }
+  ['mousemove','touchstart','scroll','keydown'].forEach(ev=>{
+    window.addEventListener(ev, ()=>{
+      setIdle(false);
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(()=> setIdle(true), 3000);
+    }, {passive:true});
+  });
+  setIdle(true);
+
+  // Init for all product mini galleries
+  $$('.mini').forEach(mini=>{
+    initHoverAdvance(mini);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  // Attach hover-advance to product .mini elements (idempotent)
+  function startHoverAdvance(mini){
+    stopHoverAdvance(mini);
+    const run = ()=>{
+      const track = mini.querySelector('.track');
+      const slides = track ? track.children.length : 0;
+      if(!slides) return;
+      const cur = Number(mini.dataset.index || 0);
+      const next = (cur + 1) % slides;
+      if(typeof window.miniTo === 'function'){ window.miniTo(mini, next); }
+      else {
+        track.style.transform = 'translateX(-' + (next*100) + '%)';
+        mini.dataset.index = String(next);
+        mini.querySelectorAll('.dot').forEach((d,di)=> d.setAttribute('aria-current', di===next));
+      }
+      mini.__hoverTimer = setTimeout(run, 1400);
+    };
+    mini.__hoverTimer = setTimeout(run, 600);
+  }
+  function stopHoverAdvance(mini){
+    if(mini.__hoverTimer){ clearTimeout(mini.__hoverTimer); mini.__hoverTimer = null; }
+  }
+  function initHoverAdvance(){
+    document.querySelectorAll('.mini').forEach(mini=>{
+      if(mini.dataset.hoverInit === '1') return;
+      mini.addEventListener('mouseenter', ()=> startHoverAdvance(mini));
+      mini.addEventListener('mouseleave', ()=> stopHoverAdvance(mini));
+      mini.dataset.hoverInit = '1';
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initHoverAdvance);
+  } else {
+    initHoverAdvance();
+  }
+})();
+</script>
+
+</body>
+</html>
